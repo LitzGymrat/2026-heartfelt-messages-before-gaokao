@@ -102,6 +102,7 @@
             art = new Artplayer({
                 container: playerContainer,
                 url: VIDEO_URL,
+                type: 'mp4',
                 autoSize: true,
                 autoplay: true,
                 pip: true,
@@ -112,6 +113,12 @@
                 mutex: true,
                 theme: '#ffffff',
                 volume: 0.9,
+                moreVideoAttr: {
+                    preload: 'auto',
+                    crossOrigin: 'anonymous',
+                    playsinline: 'true',
+                    'webkit-playsinline': 'true',
+                },
             });
 
             art.on('ready', async () => {
