@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026届河源中学创新班加油视频---《一点心意》</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/artplayer/5.2.2/artplayer.min.js"></script>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            background:
+                radial-gradient(circle at top, rgba(196, 154, 108, 0.22), transparent 32%),
+                linear-gradient(180deg, #fffaf0 0%, #f7efe1 52%, #f3e8d7 100%);
+        }
+
+        .artplayer-app {
+            aspect-ratio: 16 / 9;
+            width: min(80vw, 1200px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(68, 47, 28, 0.14);
+            opacity: 0;
+            transform: translateY(24px) scale(0.985);
+            transition: opacity 500ms ease, transform 500ms ease;
+        }
+
+        .artplayer-app.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        @media (max-width: 768px) {
+            .artplayer-app {
+                width: 100vw;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden bg-[#fffaf0] text-[#241a12]">
+    <main class="relative flex min-h-screen items-center justify-center px-4 py-8 sm:px-8">
+        <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.52),transparent_38%)]"></div>
+
+        <section id="gate" class="fixed inset-0 z-20 flex items-center justify-center bg-[#fff7eb] px-4 py-8 transition duration-500 sm:px-8">
+            <div class="flex w-full max-w-md flex-col items-center gap-6 rounded-[32px] border border-black/8 bg-white/78 px-8 py-10 text-center shadow-[0_14px_36px_rgba(68,47,28,0.10)] backdrop-blur-md">
+                <div class="space-y-3">
+                    <h2 class="text-3xl font-semibold sm:text-4xl">Password</h2>
+                </div>
+
+                <form id="password-form" class="flex w-full flex-col gap-4">
+                    <input
+                        id="password-input"
+                        type="password"
+                        autocomplete="off"
+                        placeholder="Password"
+                        class="w-full rounded-2xl border border-black/10 bg-white/75 px-5 py-4 text-center text-lg text-[#241a12] outline-none transition placeholder:text-black/20 focus:border-black/30"
+                    >
+                    <button
+                        type="submit"
+                        class="rounded-2xl bg-[#241a12] px-5 py-4 text-sm font-medium uppercase tracking-[0.35em] text-[#fffaf0] transition hover:bg-[#3b2d21]"
+                    >Enter</button>
+                </form>
+
+                <p id="message" class="min-h-6 text-sm text-rose-400"></p>
+            </div>
+        </section>
+
+        <section id="player-shell" class="relative z-10 hidden w-full flex-col items-center gap-5">
+            <div class="space-y-2 text-center">
+                <p class="text-xs uppercase tracking-[0.45em] text-black/40">Class of 2026</p>
+                <h1 class="text-2xl font-semibold leading-relaxed sm:text-4xl">2026届河源中学创新班加油视频---《一点心意》</h1>
+            </div>
+            <div id="player" class="artplayer-app is-visible"></div>
+            <p id="playback-tip" class="hidden text-sm text-black/45">浏览器拦截了自动播放，点击播放器中央的播放按钮即可继续。</p>
+        </section>
+    </main>
+
+    <script>
+        const ACCESS_PASSWORD = 'hyzx1915';
+        const VIDEO_URL = 'https://2026-heartfelt-messages-for-chuangxinban.oss-cn-hangzhou.aliyuncs.com/26%E5%B1%8A%E5%8A%A0%E6%B2%B9%E8%A7%86%E9%A2%916.4%281%29.mp4?Expires=1780576845&OSSAccessKeyId=TMP.3KvgwVD2wQ1B9M1DSHDn3CNTVt74KvUrLmXQVJfGvwqbYFtSPr2cUGjRe7gU7Wmy3FamjaNQCT9YWvSgbCkSGua8pgv8qw&Signature=s3GnYyHWbGKHx84oHcrz6buzU7s%3D';
+
+        const gate = document.getElementById('gate');
+        const playerShell = document.getElementById('player-shell');
+        const playerContainer = document.getElementById('player');
+        const passwordForm = document.getElementById('password-form');
+        const passwordInput = document.getElementById('password-input');
+        const message = document.getElementById('message');
+        const playbackTip = document.getElementById('playback-tip');
+
+        let art = null;
+
+        function createPlayer() {
+            if (art) {
+                return art;
+            }
+
+            art = new Artplayer({
+                container: playerContainer,
+                url: VIDEO_URL,
+                autoSize: true,
+                autoplay: true,
+                pip: true,
+                fullscreen: true,
+                fullscreenWeb: true,
+                playbackRate: true,
+                setting: true,
+                mutex: true,
+                theme: '#ffffff',
+                volume: 0.9,
+            });
+
+            art.on('ready', async () => {
+                try {
+                    await art.play();
+                } catch (error) {
+                    playbackTip.classList.remove('hidden');
+                }
+            });
+
+            art.on('video:error', () => {
+                playbackTip.textContent = '视频加载失败，请检查直链和 OSS/COS 的 CORS 配置。';
+                playbackTip.classList.remove('hidden');
+                playbackTip.classList.remove('text-white/45');
+                playbackTip.classList.add('text-amber-300');
+            });
+
+            return art;
+        }
+
+        passwordForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            if (passwordInput.value !== ACCESS_PASSWORD) {
+                message.textContent = 'Password incorrect';
+                passwordInput.select();
+                return;
+            }
+
+            message.textContent = '';
+            gate.classList.add('opacity-0', 'pointer-events-none');
+            playerShell.classList.remove('hidden');
+            playerShell.classList.add('flex');
+            createPlayer();
+
+            window.setTimeout(() => {
+                gate.classList.add('hidden');
+            }, 500);
+        });
+
+        passwordInput.focus();
+    </script>
+</body>
+</html>
