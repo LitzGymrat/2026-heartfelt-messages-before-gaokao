@@ -14,6 +14,7 @@ const maxFailedLogins = 10;
 const persistentCookieMaxAgeSeconds = 2147483647;
 const videoUrlTtlSeconds = 60 * 60;
 const r2BucketName = 'hyzxcgxj';
+const productionOrigin = 'https://gaoyi-summer-transition-2026.vercel.app';
 const failedLogins = new Map();
 let r2Client;
 
@@ -85,6 +86,49 @@ function getR2Client() {
     });
   }
   return r2Client;
+}
+
+async function verifySignedVideoResponse(videoUrl, courseId, objectKey) {
+  if (process.env.NODE_ENV === 'test') return;
+
+  let probeResponse;
+  try {
+    probeResponse = await fetch(videoUrl, {
+      method: 'GET',
+      headers: {
+        Origin: productionOrigin,
+        Range: 'bytes=0-1',
+      },
+      redirect: 'manual',
+    });
+
+    const diagnostics = {
+      courseId,
+      bucket: r2BucketName,
+      key: objectKey,
+      status: probeResponse.status,
+      contentType: probeResponse.headers.get('content-type'),
+      contentRange: probeResponse.headers.get('content-range'),
+      acceptRanges: probeResponse.headers.get('accept-ranges'),
+      allowedOrigin: probeResponse.headers.get('access-control-allow-origin'),
+    };
+    console.info('[r2-playback-probe]', diagnostics);
+    await probeResponse.body?.cancel();
+
+    if (!probeResponse.ok) {
+      const error = new Error(`R2 signed GET returned ${probeResponse.status}.`);
+      error.code = 'R2_SIGNED_GET_FAILED';
+      throw error;
+    }
+    if (!diagnostics.allowedOrigin) {
+      const error = new Error('R2 response did not include an Access-Control-Allow-Origin header.');
+      error.code = 'R2_CORS_MISSING';
+      throw error;
+    }
+  } catch (error) {
+    if (probeResponse?.body) await probeResponse.body.cancel().catch(() => {});
+    throw error;
+  }
 }
 
 function safelyMatches(left, right) {
@@ -253,6 +297,23 @@ app.get('/api/video-url', requireAccess, async (request, response, next) => {
       ResponseContentType: 'video/mp4',
     });
     const videoUrl = await getSignedUrl(getR2Client(), command, { expiresIn: videoUrlTtlSeconds });
+    try {
+      await verifySignedVideoResponse(videoUrl, courseId, objectKey);
+    } catch (error) {
+      console.error('[r2-playback-probe] failed', {
+        courseId,
+        bucket: r2BucketName,
+        key: objectKey,
+        errorCode: error?.code,
+        message: error?.message,
+      });
+      response.status(502).json({
+        error: error?.code === 'R2_CORS_MISSING'
+          ? 'R2 CORS 尚未生效。'
+          : '签名视频地址无法读取。',
+      });
+      return;
+    }
     response.set('Cache-Control', 'no-store');
     response.json({ course: courseId, url: videoUrl, expiresInSeconds: videoUrlTtlSeconds });
   } catch (error) {

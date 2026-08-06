@@ -182,6 +182,7 @@
             theme: course.accent,
             volume: 0.85,
             moreVideoAttr: {
+                crossorigin: 'anonymous',
                 preload: 'metadata',
                 playsinline: 'true',
                 'webkit-playsinline': 'true',
