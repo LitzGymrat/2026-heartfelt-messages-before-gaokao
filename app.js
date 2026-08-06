@@ -169,7 +169,7 @@
         art = new window.Artplayer({
             container: elements.player,
             url,
-            poster: course.poster || undefined,
+            ...(course.poster ? { poster: course.poster } : {}),
             type: 'mp4',
             autoplay: false,
             autoSize: false,
