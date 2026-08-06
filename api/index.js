@@ -13,7 +13,7 @@ const loginWindowMs = 15 * 60 * 1000;
 const maxFailedLogins = 10;
 const persistentCookieMaxAgeSeconds = 2147483647;
 const videoUrlTtlSeconds = 60 * 60;
-const r2BucketName = 'gaoyi-summer-transition-2026';
+const r2BucketName = 'hyzxcgxj';
 const failedLogins = new Map();
 let r2Client;
 

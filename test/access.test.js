@@ -94,7 +94,7 @@ test('each known course receives a signed URL for only its configured object', a
     const signedUrl = new URL(payload.url);
     assert.equal(payload.course, course);
     assert.equal(signedUrl.hostname, 'test-account.r2.cloudflarestorage.com');
-    assert.equal(signedUrl.pathname, `/gaoyi-summer-transition-2026/${objectKey}`);
+    assert.equal(signedUrl.pathname, `/hyzxcgxj/${objectKey}`);
     assert.ok(signedUrl.searchParams.get('X-Amz-Signature'));
     assert.equal(payload.expiresInSeconds, 3600);
   }

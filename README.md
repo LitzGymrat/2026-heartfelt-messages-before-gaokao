@@ -37,4 +37,4 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 
 `vercel.json` 会把页面、静态资源和 API 请求统一交给 `api/index.js`，因此密码校验和静态文件白名单在本地与 Vercel 上保持一致。
 
-服务端固定使用私有桶 `gaoyi-summer-transition-2026`，三个对象路径分别为 `Courses/chinese.mp4`、`Courses/math.mp4` 和 `Courses/english.mp4`。R2 对象路径区分大小写。登录后无需定期重新输入密码；只有主动退出、清除浏览器数据或更换 `ACCESS_TOKEN_SECRET` 才会失效。临时视频地址由程序自动获取和更新，不需要环境变量或人工管理。
+服务端固定使用私有桶 `hyzxcgxj`，三个对象路径分别为 `Courses/chinese.mp4`、`Courses/math.mp4` 和 `Courses/english.mp4`。R2 对象路径区分大小写。登录后无需定期重新输入密码；只有主动退出、清除浏览器数据或更换 `ACCESS_TOKEN_SECRET` 才会失效。临时视频地址由程序自动获取和更新，不需要环境变量或人工管理。
