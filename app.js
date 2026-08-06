@@ -96,8 +96,10 @@
         button.style.setProperty('--course-accent', course.accent);
         button.setAttribute('aria-pressed', 'false');
         button.innerHTML = `
-            <span aria-hidden="true">${course.shortName}</span>
-            <strong>${course.subject}</strong>
+            <span class="course-card-icon" aria-hidden="true">${course.shortName}</span>
+            <span class="course-card-copy">
+                <strong>${course.subject}</strong>
+            </span>
         `;
         button.addEventListener('click', () => void selectCourse(course.id, true));
         return button;

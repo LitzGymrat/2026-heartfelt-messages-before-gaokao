@@ -4,42 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="2026 新高一暑假衔接课">
-    <meta name="theme-color" content="#f3f1eb">
+    <meta name="theme-color" content="#f4f8ff">
     <title>2026 新高一暑假衔接课</title>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=20260806-4">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/artplayer/5.2.2/artplayer.min.js"></script>
-    <script defer src="./site-config.js"></script>
-    <script defer src="./app.js"></script>
+    <script defer src="./site-config.js?v=20260806-4"></script>
+    <script defer src="./app.js?v=20260806-4"></script>
 </head>
 <body>
-    <section id="access-gate" class="access-gate" aria-labelledby="gate-title">
-        <form id="access-form" class="access-panel">
-            <h1 id="gate-title">新高一暑假衔接课</h1>
-            <label for="access-password">访问密码</label>
-            <div class="password-row">
-                <input id="access-password" type="password" autocomplete="current-password" required>
-                <button id="access-submit" type="submit">进入</button>
+    <main class="page-stage">
+        <div class="page-glow" aria-hidden="true"></div>
+
+        <section id="access-gate" class="access-gate" aria-labelledby="gate-title">
+            <form id="access-form" class="access-panel">
+                <div class="gate-heading">
+                    <p>2026 SUMMER BRIDGE</p>
+                    <h1 id="gate-title">Password</h1>
+                </div>
+
+                <label class="sr-only" for="access-password">访问密码</label>
+                <input
+                    id="access-password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Password"
+                    aria-describedby="access-message"
+                    required
+                >
+                <button id="access-submit" type="submit">Enter</button>
+                <p id="access-message" class="form-message" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="site-shell" class="player-shell" hidden>
+            <div class="player-heading">
+                <p>CLASS OF 2026</p>
+                <h1>2026 新高一暑假衔接课</h1>
             </div>
-            <p id="access-message" class="form-message" aria-live="polite"></p>
-        </form>
-    </section>
 
-    <div id="site-shell" class="site-shell" hidden>
-        <header class="site-header">
-            <h1>2026 新高一暑假衔接课</h1>
-            <button id="logout-button" type="button">退出</button>
-        </header>
-
-        <main>
             <nav id="course-grid" class="course-grid" aria-label="选择科目"></nav>
 
             <section id="classroom" class="classroom" aria-labelledby="classroom-title">
-                <div class="lesson-header">
-                    <h2 id="classroom-title">语文衔接课</h2>
-                    <div class="lesson-actions">
+                <div class="lesson-heading">
+                    <div>
+                        <h2 id="classroom-title">语文衔接课</h2>
                         <span id="lesson-duration">约 40 分钟</span>
+                    </div>
+                    <div class="lesson-actions">
                         <button id="reset-progress" type="button">清除进度</button>
+                        <button id="logout-button" type="button">退出</button>
                     </div>
                 </div>
 
@@ -48,17 +62,18 @@
                     <div id="player-empty" class="player-empty">
                         <span class="empty-subject">语</span>
                         <div>
-                            <strong>暂无视频</strong>
+                            <strong>正在准备课程</strong>
+                            <span>视频就绪后即可开始播放</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="player-meta">
                     <p id="lesson-progress">尚未开始</p>
-                    <p id="player-status" aria-live="polite">未加载</p>
+                    <p id="player-status" aria-live="polite">正在连接课程</p>
                 </div>
             </section>
-        </main>
-    </div>
+        </section>
+    </main>
 </body>
 </html>

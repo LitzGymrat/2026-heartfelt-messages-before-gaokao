@@ -7,7 +7,7 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             subject: '语文',
             shortName: '语',
             duration: '约 40 分钟',
-            accent: '#e86245',
+            accent: '#3370ff',
             poster: '',
         },
         {
@@ -15,7 +15,7 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             subject: '数学',
             shortName: '数',
             duration: '约 40 分钟',
-            accent: '#3569d4',
+            accent: '#1456f0',
             poster: '',
         },
         {
@@ -23,7 +23,7 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             subject: '英语',
             shortName: '英',
             duration: '约 40 分钟',
-            accent: '#139b83',
+            accent: '#2f88ff',
             poster: '',
         },
     ],
