@@ -48,7 +48,7 @@ test('public front-end files do not expose passwords, credentials, or object key
   }
 });
 
-test('session uses a signed HttpOnly strict cookie', async () => {
+test('session uses a non-expiring signed HttpOnly strict cookie', async () => {
   const denied = await fetch(`${baseUrl}/api/video-url?course=chinese`);
   assert.equal(denied.status, 403);
 
@@ -69,6 +69,10 @@ test('session uses a signed HttpOnly strict cookie', async () => {
   assert.match(setCookie, /gaoyi_bridge_access=/);
   assert.match(setCookie, /HttpOnly/i);
   assert.match(setCookie, /SameSite=Strict/i);
+  assert.match(setCookie, /Max-Age=2147483647/i);
+
+  const token = decodeURIComponent(setCookie.split(';')[0].split('=')[1]);
+  assert.match(token, /^v2\.access\.[A-Za-z0-9_-]+$/);
 
   const cookie = setCookie.split(';')[0];
   const session = await fetch(`${baseUrl}/api/session`, { headers: { Cookie: cookie } });

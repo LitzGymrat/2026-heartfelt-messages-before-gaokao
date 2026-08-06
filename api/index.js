@@ -11,7 +11,7 @@ const projectRoot = path.join(__dirname, '..');
 const accessCookieName = 'gaoyi_bridge_access';
 const loginWindowMs = 15 * 60 * 1000;
 const maxFailedLogins = 10;
-const accessTokenTtlSeconds = 7 * 24 * 60 * 60;
+const persistentCookieMaxAgeSeconds = 2147483647;
 const videoUrlTtlSeconds = 60 * 60;
 const r2BucketName = 'gaoyi-summer-transition-2026';
 const failedLogins = new Map();
@@ -87,8 +87,8 @@ function safelyMatches(left, right) {
   return crypto.timingSafeEqual(leftHash, rightHash);
 }
 
-function signAccessToken(expiresAt) {
-  const payload = `v1.${expiresAt}`;
+function signAccessToken() {
+  const payload = 'v2.access';
   const signature = crypto.createHmac('sha256', getAccessTokenSecret()).update(payload).digest('base64url');
   return `${payload}.${signature}`;
 }
@@ -96,10 +96,7 @@ function signAccessToken(expiresAt) {
 function verifyAccessToken(token) {
   if (!token) return false;
   const parts = String(token).split('.');
-  if (parts.length !== 3 || parts[0] !== 'v1' || !/^\d+$/.test(parts[1])) return false;
-
-  const expiresAt = Number(parts[1]);
-  if (!Number.isSafeInteger(expiresAt) || expiresAt <= Math.floor(Date.now() / 1000)) return false;
+  if (parts.length !== 3 || parts[0] !== 'v2' || parts[1] !== 'access') return false;
 
   const payload = `${parts[0]}.${parts[1]}`;
   const expectedSignature = crypto.createHmac('sha256', getAccessTokenSecret()).update(payload).digest('base64url');
@@ -198,9 +195,9 @@ app.post('/api/access', (request, response, next) => {
     }
 
     failedLogins.delete(key);
-    const token = signAccessToken(Math.floor(Date.now() / 1000) + accessTokenTtlSeconds);
+    const token = signAccessToken();
     response.set('Cache-Control', 'no-store');
-    response.set('Set-Cookie', buildAccessCookie(request, token, accessTokenTtlSeconds));
+    response.set('Set-Cookie', buildAccessCookie(request, token, persistentCookieMaxAgeSeconds));
     response.status(204).end();
   } catch (error) {
     next(error);

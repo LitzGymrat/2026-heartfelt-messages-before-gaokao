@@ -5,7 +5,7 @@
 ## 保护边界
 
 - 密码和 R2 凭据只存在于服务端环境变量中。
-- 浏览器通过签名后的 `HttpOnly` Cookie 保持访问状态。
+- 浏览器通过签名后的 `HttpOnly` Cookie 长期保持访问状态；服务端登录令牌不设到期时间。
 - `/api/video-url?course=...` 只接受语文、数学、英语三个课程标识。
 - 每次播放拿到的是默认有效期一小时的临时 R2 地址，足以覆盖约 40 分钟的课程。
 - 服务端只公开四个前端文件，不会公开项目源码、本地视频、配置文件或 R2 凭据。
@@ -37,4 +37,4 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 
 `vercel.json` 会把页面、静态资源和 API 请求统一交给 `api/index.js`，因此密码校验和静态文件白名单在本地与 Vercel 上保持一致。
 
-服务端固定使用私有桶 `gaoyi-summer-transition-2026`，三个对象路径分别为 `courses/chinese.mp4`、`courses/math.mp4` 和 `courses/english.mp4`。登录有效期固定为 7 天，临时视频地址有效期固定为 1 小时。
+服务端固定使用私有桶 `gaoyi-summer-transition-2026`，三个对象路径分别为 `courses/chinese.mp4`、`courses/math.mp4` 和 `courses/english.mp4`。登录后无需定期重新输入密码；只有主动退出、清除浏览器数据或更换 `ACCESS_TOKEN_SECRET` 才会失效。临时视频地址由程序自动获取和更新，不需要环境变量或人工管理。
