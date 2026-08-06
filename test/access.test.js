@@ -1,11 +1,20 @@
 const assert = require('node:assert/strict');
 const { after, before, test } = require('node:test');
+const { HeadObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 
 process.env.SITE_ACCESS_PASSWORD = 'test-password-only';
 process.env.ACCESS_TOKEN_SECRET = 'test-token-secret-with-enough-entropy';
 process.env.R2_ACCOUNT_ID = 'test-account';
 process.env.R2_ACCESS_KEY_ID = 'test-access-key';
 process.env.R2_SECRET_ACCESS_KEY = 'test-secret-key';
+
+const originalS3Send = S3Client.prototype.send;
+S3Client.prototype.send = async function mockS3Send(command) {
+  if (command instanceof HeadObjectCommand) {
+    return { ContentLength: 65070558, ContentType: 'video/mp4' };
+  }
+  return originalS3Send.call(this, command);
+};
 
 const app = require('../api/index.js');
 const vercelConfig = require('../vercel.json');
@@ -24,6 +33,7 @@ after(async () => {
   await new Promise((resolve, reject) => {
     server.close((error) => error ? reject(error) : resolve());
   });
+  S3Client.prototype.send = originalS3Send;
 });
 
 async function signIn() {

@@ -1,6 +1,6 @@
 const crypto = require('node:crypto');
 const path = require('node:path');
-const { GetObjectCommand, S3Client } = require('@aws-sdk/client-s3');
+const { GetObjectCommand, HeadObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const express = require('express');
 require('dotenv').config({ quiet: true });
@@ -216,6 +216,28 @@ app.get('/api/video-url', requireAccess, async (request, response, next) => {
     const objectKey = courseObjectKeys[courseId];
     if (!objectKey) {
       response.status(400).json({ error: '未知课程。' });
+      return;
+    }
+
+    try {
+      await getR2Client().send(new HeadObjectCommand({
+        Bucket: r2BucketName,
+        Key: objectKey,
+      }));
+    } catch (error) {
+      const httpStatusCode = Number(error?.$metadata?.httpStatusCode || 0);
+      console.error('[r2-object-check] failed', {
+        courseId,
+        bucket: r2BucketName,
+        key: objectKey,
+        errorName: error?.name,
+        errorCode: error?.Code || error?.code,
+        httpStatusCode,
+        message: error?.message,
+      });
+      response.status(httpStatusCode === 404 ? 404 : 502).json({
+        error: httpStatusCode === 404 ? '视频文件不存在。' : '视频存储暂时无法读取。',
+      });
       return;
     }
 
