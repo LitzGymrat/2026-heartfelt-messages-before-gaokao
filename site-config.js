@@ -1,4 +1,4 @@
-// 上传视频后，只需要替换各课程的 url。建议使用 R2 自定义域名地址。
+// 前端课程名称与颜色；视频对象由服务端环境变量配置。
 window.SUMMER_BRIDGE_CONFIG = Object.freeze({
     storagePrefix: 'gaoyi-summer-transition-2026',
     courses: [
@@ -6,11 +6,6 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             id: 'chinese',
             subject: '语文',
             shortName: '语',
-            englishName: 'CHINESE',
-            sequence: '01',
-            title: '新高一语文衔接课',
-            displayTitle: '新高一语文\n衔接课',
-            description: '从初中阅读走向高中语文，认识文本深读、表达组织与课堂思考方式的变化。',
             duration: '约 40 分钟',
             accent: '#e86245',
             poster: '',
@@ -19,11 +14,6 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             id: 'math',
             subject: '数学',
             shortName: '数',
-            englishName: 'MATHEMATICS',
-            sequence: '02',
-            title: '新高一数学衔接课',
-            displayTitle: '新高一数学\n衔接课',
-            description: '从熟悉的运算迈向抽象的关系，提前理解高中数学的语言、方法与解题节奏。',
             duration: '约 40 分钟',
             accent: '#3569d4',
             poster: '',
@@ -32,11 +22,6 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             id: 'english',
             subject: '英语',
             shortName: '英',
-            englishName: 'ENGLISH',
-            sequence: '03',
-            title: '新高一英语衔接课',
-            displayTitle: '新高一英语\n衔接课',
-            description: '重新组织词汇、阅读与表达的学习路径，为高中英语更长的语篇和更主动的输出做准备。',
             duration: '约 40 分钟',
             accent: '#139b83',
             poster: '',

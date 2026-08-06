@@ -15,16 +15,12 @@
         accessMessage: document.getElementById('access-message'),
         logoutButton: document.getElementById('logout-button'),
         courseGrid: document.getElementById('course-grid'),
-        lessonKicker: document.getElementById('lesson-kicker'),
         lessonTitle: document.getElementById('classroom-title'),
-        lessonDescription: document.getElementById('lesson-description'),
         lessonDuration: document.getElementById('lesson-duration'),
         lessonProgress: document.getElementById('lesson-progress'),
         playerFrame: document.getElementById('player-frame'),
         player: document.getElementById('player'),
         playerEmpty: document.getElementById('player-empty'),
-        currentCourseName: document.getElementById('current-course-name'),
-        currentCourseDot: document.getElementById('current-course-dot'),
         playerStatus: document.getElementById('player-status'),
         resetProgress: document.getElementById('reset-progress'),
     };
@@ -100,14 +96,8 @@
         button.style.setProperty('--course-accent', course.accent);
         button.setAttribute('aria-pressed', 'false');
         button.innerHTML = `
-            <span class="card-topline"><b>${course.sequence}</b><em>${course.duration}</em></span>
-            <span class="card-symbol" aria-hidden="true">${course.shortName}</span>
-            <span class="card-copy">
-                <small>${course.englishName}</small>
-                <strong>${course.subject}衔接课</strong>
-                <span>${course.description}</span>
-            </span>
-            <span class="card-action">进入课程 <i aria-hidden="true">↗</i></span>
+            <span aria-hidden="true">${course.shortName}</span>
+            <strong>${course.subject}</strong>
         `;
         button.addEventListener('click', () => void selectCourse(course.id, true));
         return button;
@@ -134,10 +124,9 @@
         elements.player.replaceChildren();
     }
 
-    function setEmptyState(title, description, status) {
+    function setEmptyState(title, status) {
         elements.playerEmpty.hidden = false;
         elements.playerEmpty.querySelector('strong').textContent = title;
-        elements.playerEmpty.querySelector('p').textContent = description;
         elements.playerStatus.textContent = status;
     }
 
@@ -150,17 +139,9 @@
     }
 
     function updateLessonCopy(course) {
-        elements.lessonKicker.textContent = `${course.englishName} · ${course.sequence}`;
-        elements.lessonTitle.replaceChildren(...course.displayTitle.split('\n').map((line) => {
-            const span = document.createElement('span');
-            span.textContent = line;
-            return span;
-        }));
-        elements.lessonDescription.textContent = course.description;
+        elements.lessonTitle.textContent = `${course.subject}衔接课`;
         elements.lessonDuration.textContent = course.duration;
         elements.lessonProgress.textContent = formatProgress(readProgress(course.id));
-        elements.currentCourseName.textContent = `${course.subject}衔接课`;
-        elements.currentCourseDot.style.backgroundColor = course.accent;
         elements.playerFrame.dataset.theme = course.id;
         elements.playerFrame.style.setProperty('--active-accent', course.accent);
         elements.playerEmpty.querySelector('.empty-subject').textContent = course.shortName;
@@ -181,7 +162,7 @@
 
     function createPlayer(course, url) {
         if (typeof window.Artplayer !== 'function') {
-            setEmptyState('播放器加载失败', '请检查网络后刷新页面。', '播放器组件未加载');
+            setEmptyState('加载失败', '播放器未加载');
             return;
         }
 
@@ -230,7 +211,7 @@
         });
 
         art.on('video:error', () => {
-            elements.playerStatus.textContent = '视频加载失败，请稍后重试';
+            elements.playerStatus.textContent = '加载失败';
         });
     }
 
@@ -257,7 +238,7 @@
     }
 
     async function loadCourseVideo(course) {
-        setEmptyState('正在获取课程', '服务器正在生成本次播放所需的临时地址。', '正在验证播放权限');
+        setEmptyState('加载中', '加载中');
         try {
             const url = await getSignedVideoUrl(course);
             if (course.id !== currentCourse.id) return;
@@ -267,7 +248,7 @@
                 showGate('访问已过期，请重新输入密码。');
                 return;
             }
-            setEmptyState('课程暂时无法播放', error.message, '视频地址获取失败');
+            setEmptyState('加载失败', error.message);
         }
     }
 
@@ -284,7 +265,7 @@
         if (accessGranted) {
             await loadCourseVideo(nextCourse);
         } else {
-            setEmptyState('课程视频受保护', '输入访问密码后，服务器会生成本次播放所需的临时地址。', '等待访问验证');
+            setEmptyState('暂无视频', '未加载');
         }
 
         if (scrollToPlayer) {

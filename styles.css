@@ -1,14 +1,10 @@
 :root {
     color-scheme: light;
-    --ink: #18211d;
-    --muted: #667069;
-    --paper: #f4f1e8;
-    --paper-deep: #e8e2d4;
-    --line: rgba(24, 33, 29, 0.18);
-    --white: #fffdf7;
-    --orange: #e86245;
-    --blue: #3569d4;
-    --green: #139b83;
+    --ink: #1d211f;
+    --muted: #6f746f;
+    --paper: #f3f1eb;
+    --panel: #fffdf8;
+    --line: #d7d5ce;
     font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif;
 }
 
@@ -16,15 +12,12 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
+    min-width: 320px;
+    min-height: 100vh;
     margin: 0;
     background: var(--paper);
     color: var(--ink);
-    min-width: 320px;
 }
 
 button,
@@ -32,14 +25,8 @@ input {
     font: inherit;
 }
 
-button,
-a {
-    -webkit-tap-highlight-color: transparent;
-}
-
-a {
+button {
     color: inherit;
-    text-decoration: none;
 }
 
 [hidden] {
@@ -52,610 +39,183 @@ a {
     z-index: 100;
     display: grid;
     place-items: center;
-    overflow: hidden;
     padding: 24px;
-    background: #17241f;
-    color: #f7f2e6;
-    transition: opacity 420ms ease, transform 420ms ease;
-}
-
-.access-gate::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(circle, black, transparent 78%);
+    background: #1d211f;
+    transition: opacity 260ms ease;
 }
 
 .access-gate.is-leaving {
     opacity: 0;
-    transform: scale(1.02);
     pointer-events: none;
 }
 
-.gate-panel {
-    position: relative;
-    width: min(100%, 1120px);
-    min-height: min(720px, calc(100vh - 48px));
-    display: grid;
-    grid-template-columns: 1fr 420px;
-    grid-template-rows: auto 1fr auto;
-    gap: 44px 80px;
-    padding: 46px 52px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(17, 32, 26, 0.74);
-    backdrop-filter: blur(18px);
+.access-panel {
+    width: min(100%, 440px);
+    padding: 36px;
+    background: var(--panel);
 }
 
-.brand-mark {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
+.access-panel h1 {
+    margin: 0 0 36px;
+    font-size: 28px;
 }
 
-.brand-mark i {
-    width: 32px;
-    height: 1px;
-    background: #e9b958;
-}
-
-.gate-copy {
-    align-self: center;
-}
-
-.eyebrow,
-.section-index {
-    margin: 0;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-}
-
-.gate-copy .eyebrow {
-    color: #e9b958;
-}
-
-.gate-copy h1 {
-    margin: 24px 0 28px;
-    font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(46px, 6vw, 82px);
-    font-weight: 500;
-    line-height: 1.12;
-    letter-spacing: -0.06em;
-}
-
-.gate-copy > p:last-child {
-    margin: 0;
-    color: rgba(247, 242, 230, 0.64);
-    font-size: 16px;
-    letter-spacing: 0.12em;
-}
-
-.access-form {
-    align-self: center;
-    padding: 32px;
-    border-left: 1px solid rgba(255, 255, 255, 0.14);
-}
-
-.access-form label {
+.access-panel label {
     display: block;
-    margin-bottom: 14px;
-    color: rgba(247, 242, 230, 0.68);
+    margin-bottom: 10px;
+    color: var(--muted);
     font-size: 13px;
 }
 
 .password-row {
     display: flex;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.48);
+    gap: 10px;
 }
 
 .password-row input {
     min-width: 0;
     flex: 1;
-    padding: 14px 0;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    color: white;
-    font-size: 17px;
+    padding: 13px 14px;
+    border: 1px solid var(--line);
+    outline: none;
+    background: white;
 }
 
-.password-row input::placeholder {
-    color: rgba(255, 255, 255, 0.32);
+.password-row input:focus {
+    border-color: var(--ink);
+}
+
+.password-row button,
+.site-header button,
+.lesson-actions button {
+    border: 0;
+    cursor: pointer;
 }
 
 .password-row button {
-    border: 0;
-    background: transparent;
-    color: #e9b958;
-    cursor: pointer;
-    font-weight: 700;
+    padding: 0 22px;
+    background: var(--ink);
+    color: white;
 }
 
-.password-row button span {
-    display: inline-block;
-    margin-left: 6px;
-    transition: transform 180ms ease;
-}
-
-.password-row button:hover span {
-    transform: translate(3px, -3px);
+.password-row button:disabled {
+    opacity: 0.5;
 }
 
 .form-message {
-    min-height: 22px;
+    min-height: 20px;
     margin: 12px 0 0;
-    color: #ff9b88;
+    color: #bd3b2a;
     font-size: 13px;
-}
-
-.gate-footnote {
-    grid-column: 1 / -1;
-    margin: 0;
-    color: rgba(247, 242, 230, 0.4);
-    font-size: 10px;
-    letter-spacing: 0.3em;
-}
-
-.gate-orbit {
-    position: absolute;
-    border: 1px solid rgba(233, 185, 88, 0.2);
-    border-radius: 50%;
-}
-
-.gate-orbit-one {
-    width: 620px;
-    height: 620px;
-    top: -360px;
-    right: -160px;
-}
-
-.gate-orbit-two {
-    width: 340px;
-    height: 340px;
-    bottom: -210px;
-    left: -80px;
-}
-
-.site-shell {
-    animation: site-enter 700ms ease both;
-}
-
-@keyframes site-enter {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 .site-header {
-    min-height: 92px;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
     align-items: center;
-    gap: 32px;
-    padding: 18px clamp(24px, 5vw, 72px);
+    justify-content: space-between;
+    min-height: 76px;
+    padding: 18px clamp(20px, 5vw, 64px);
     border-bottom: 1px solid var(--line);
 }
 
-.site-logo {
-    justify-self: start;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.site-header h1 {
+    margin: 0;
+    font-size: 20px;
 }
 
-.logo-block {
-    display: grid;
-    width: 46px;
-    height: 46px;
-    place-items: center;
-    background: var(--ink);
-    color: var(--white);
-    font-family: "Songti SC", SimSun, serif;
-    font-size: 18px;
-}
-
-.logo-copy {
-    display: flex;
-    flex-direction: column;
-    font-weight: 700;
-}
-
-.logo-copy small {
-    margin-top: 2px;
-    color: var(--muted);
-    font-size: 8px;
-    letter-spacing: 0.16em;
-}
-
-.site-header nav {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.site-header nav button {
-    padding: 0;
-    border: 0;
+.site-header button,
+.lesson-actions button {
+    padding: 7px 0;
     border-bottom: 1px solid currentColor;
     background: transparent;
-    color: inherit;
-    cursor: pointer;
-    font-size: inherit;
-}
-
-.site-header nav a:hover,
-.site-header nav button:hover {
-    color: var(--ink);
-}
-
-.header-year {
-    justify-self: end;
-    margin: 0;
+    color: var(--muted);
     font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
 }
 
-.header-year span {
-    margin-left: 8px;
-    color: var(--orange);
-}
-
-main,
-footer {
-    width: min(100%, 1600px);
+main {
+    width: min(100%, 1320px);
     margin: 0 auto;
-}
-
-.hero {
-    min-height: calc(100vh - 92px);
-    display: grid;
-    grid-template-columns: 1.08fr 0.92fr;
-    border-bottom: 1px solid var(--line);
-}
-
-.hero-copy {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: clamp(64px, 8vw, 128px) clamp(28px, 7vw, 112px);
-}
-
-.section-index {
-    color: var(--muted);
-}
-
-.hero-copy h1 {
-    margin: 32px 0;
-    font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(64px, 8vw, 128px);
-    font-weight: 500;
-    line-height: 0.98;
-    letter-spacing: -0.08em;
-}
-
-.hero-copy h1 em {
-    color: var(--orange);
-    font-style: normal;
-}
-
-.hero-lede {
-    max-width: 560px;
-    margin: 0;
-    color: var(--muted);
-    font-size: 17px;
-    line-height: 1.9;
-}
-
-.primary-link {
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    margin-top: 48px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--ink);
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.hero-visual {
-    position: relative;
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    min-height: 620px;
-    border-left: 1px solid var(--line);
-    background: #d9d4c7;
-}
-
-.hero-visual::before,
-.hero-visual::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-}
-
-.hero-visual::before {
-    width: min(40vw, 620px);
-    height: min(40vw, 620px);
-    border: 1px solid rgba(24, 33, 29, 0.2);
-}
-
-.hero-visual::after {
-    width: min(30vw, 460px);
-    height: min(30vw, 460px);
-    background: var(--orange);
-    box-shadow: 0 0 0 48px rgba(255, 253, 247, 0.18);
-}
-
-.visual-number {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    color: var(--white);
-    font-family: Georgia, serif;
-    font-size: clamp(180px, 23vw, 360px);
-    line-height: 1;
-}
-
-.visual-disc {
-    position: absolute;
-    z-index: 2;
-    top: 54px;
-    right: 48px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 9px;
-    letter-spacing: 0.16em;
-}
-
-.visual-disc strong {
-    margin: 5px 0;
-    font-size: 11px;
-}
-
-.visual-caption {
-    position: absolute;
-    z-index: 2;
-    bottom: 42px;
-    left: 42px;
-    margin: 0;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-}
-
-.courses-section,
-.classroom,
-.closing {
-    padding: clamp(72px, 9vw, 140px) clamp(24px, 5vw, 72px);
-}
-
-.section-heading {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 40px;
-    margin-bottom: 56px;
-}
-
-.section-heading h2 {
-    margin: 18px 0 0;
-    font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(42px, 5vw, 72px);
-    font-weight: 500;
-    letter-spacing: -0.05em;
-}
-
-.section-heading > p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.8;
-    text-align: right;
+    padding: clamp(32px, 5vw, 64px);
 }
 
 .course-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--line);
-    border-left: 1px solid var(--line);
+    gap: 12px;
+    margin-bottom: 32px;
 }
 
 .course-card {
-    position: relative;
-    min-height: 500px;
+    --course-accent: #333;
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 28px;
-    border: 0;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    background: transparent;
-    color: var(--ink);
-    text-align: left;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    background: var(--panel);
     cursor: pointer;
-    transition: background 220ms ease, color 220ms ease, transform 220ms ease;
+    text-align: left;
+}
+
+.course-card > span {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    background: color-mix(in srgb, var(--course-accent) 14%, white);
+    color: var(--course-accent);
+    font-family: "Songti SC", SimSun, serif;
+    font-size: 22px;
+}
+
+.course-card strong {
+    font-size: 17px;
 }
 
 .course-card:hover,
 .course-card.is-active {
-    z-index: 1;
-    background: var(--course-accent);
-    color: white;
+    border-color: var(--course-accent);
+    box-shadow: inset 4px 0 0 var(--course-accent);
 }
 
 .course-card:focus-visible {
-    z-index: 2;
-    outline: 3px solid var(--ink);
-    outline-offset: -6px;
-}
-
-.card-topline {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-}
-
-.card-topline b,
-.card-topline em {
-    font-style: normal;
-    font-weight: 700;
-}
-
-.card-symbol {
-    margin: 50px 0 38px;
-    font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(92px, 10vw, 154px);
-    line-height: 0.85;
-}
-
-.card-copy {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-copy small {
-    margin-bottom: 8px;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-}
-
-.card-copy strong {
-    font-family: "Songti SC", SimSun, serif;
-    font-size: 30px;
-    font-weight: 500;
-}
-
-.card-copy > span {
-    margin-top: 14px;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.8;
-}
-
-.course-card:hover .card-copy > span,
-.course-card.is-active .card-copy > span {
-    color: rgba(255, 255, 255, 0.74);
-}
-
-.card-action {
-    display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-    padding-top: 28px;
-    border-top: 1px solid currentColor;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.card-action i {
-    font-size: 18px;
-    font-style: normal;
+    outline: 2px solid var(--course-accent);
+    outline-offset: 2px;
 }
 
 .classroom {
-    background: var(--ink);
-    color: var(--white);
+    padding: clamp(20px, 3vw, 36px);
+    background: var(--panel);
+    border: 1px solid var(--line);
 }
 
-.classroom-topline {
+.lesson-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.lesson-header h2 {
+    margin: 0;
+    font-size: clamp(26px, 4vw, 40px);
+}
+
+.lesson-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 54px;
-}
-
-.classroom .section-index {
-    color: rgba(255, 255, 255, 0.48);
-}
-
-.text-button {
-    padding: 6px 0;
-    border: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    background: none;
-    color: rgba(255, 255, 255, 0.66);
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.classroom-layout {
-    display: grid;
-    grid-template-columns: minmax(250px, 0.34fr) minmax(0, 1fr);
-    gap: clamp(44px, 7vw, 110px);
-}
-
-.lesson-kicker {
-    margin: 0 0 28px;
-    color: #e9b958;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-}
-
-.lesson-info h2 {
-    margin: 0;
-    font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(44px, 5vw, 78px);
-    font-weight: 500;
-    line-height: 1.08;
-    letter-spacing: -0.06em;
-}
-
-.lesson-info h2 span {
-    display: block;
-}
-
-.lesson-description {
-    margin: 32px 0 42px;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-.lesson-facts {
-    margin: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.lesson-facts div {
-    display: flex;
-    justify-content: space-between;
-    gap: 18px;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-    font-size: 12px;
-}
-
-.lesson-facts dt {
-    color: rgba(255, 255, 255, 0.44);
-}
-
-.lesson-facts dd {
-    margin: 0;
-    text-align: right;
+    gap: 20px;
+    color: var(--muted);
+    font-size: 13px;
 }
 
 .player-frame {
-    --active-accent: var(--orange);
+    --active-accent: #e86245;
     position: relative;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: #0c110f;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #111513;
 }
 
 .player {
@@ -669,326 +229,108 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(24px, 5vw, 72px);
-    padding: 36px;
-    background: radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--active-accent) 40%, transparent), transparent 38%), #0d1512;
+    gap: 36px;
+    padding: 24px;
+    color: white;
 }
 
 .empty-subject {
     color: var(--active-accent);
     font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(100px, 15vw, 220px);
+    font-size: clamp(72px, 12vw, 150px);
     line-height: 1;
 }
 
 .player-empty strong {
     display: block;
-    font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(26px, 3vw, 44px);
-    font-weight: 500;
+    font-size: clamp(20px, 3vw, 32px);
 }
 
-.player-empty p {
-    max-width: 320px;
-    margin: 14px 0 0;
-    color: rgba(255, 255, 255, 0.48);
-    font-size: 13px;
-    line-height: 1.7;
-}
-
-.player-footer {
-    display: flex;
-    justify-content: space-between;
+.player-meta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
     gap: 24px;
-    margin-top: 16px;
-    color: rgba(255, 255, 255, 0.48);
-    font-size: 11px;
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 12px;
 }
 
-.player-footer p {
+.player-meta p {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     margin: 0;
 }
 
-.player-footer strong {
-    color: var(--white);
-    font-size: 12px;
-}
-
-.course-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.closing {
-    min-height: 620px;
-    display: grid;
-    grid-template-columns: minmax(180px, 0.3fr) minmax(360px, 0.7fr) minmax(240px, 0.4fr);
-    align-items: end;
-    gap: 52px;
-    border-bottom: 1px solid var(--line);
-}
-
-.closing h2 {
-    margin: 0;
-    font-family: "Songti SC", SimSun, serif;
-    font-size: clamp(56px, 7vw, 108px);
-    font-weight: 500;
-    line-height: 1.02;
-    letter-spacing: -0.07em;
-}
-
-.closing > p:last-of-type {
-    margin: 0;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-.closing > a {
-    grid-column: 3;
-    width: fit-content;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--ink);
-    font-size: 12px;
-    font-weight: 700;
-}
-
-footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 28px clamp(24px, 5vw, 72px);
-    color: var(--muted);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-}
-
-@media (max-width: 980px) {
-    .gate-panel {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        padding: 36px;
-    }
-
-    .access-form {
-        align-self: start;
-        padding: 0;
-        border-left: 0;
-    }
-
-    .hero {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-visual {
-        min-height: 560px;
-        border-top: 1px solid var(--line);
-        border-left: 0;
-    }
-
-    .hero-visual::before {
-        width: 520px;
-        height: 520px;
-    }
-
-    .hero-visual::after {
-        width: 390px;
-        height: 390px;
-    }
-
-    .course-card {
-        min-height: 440px;
-    }
-
-    .classroom-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .lesson-info {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0 48px;
-    }
-
-    .lesson-kicker {
-        grid-column: 1 / -1;
-    }
-
-    .lesson-description,
-    .lesson-facts {
-        align-self: end;
-    }
-
-    .closing {
-        grid-template-columns: 1fr 2fr;
-    }
-
-    .closing > p:last-of-type,
-    .closing > a {
-        grid-column: 2;
-    }
-}
-
-@media (max-width: 720px) {
-    .access-gate {
-        padding: 12px;
-    }
-
-    .gate-panel {
-        min-height: calc(100vh - 24px);
+@media (max-width: 680px) {
+    .access-panel {
         padding: 28px 22px;
     }
 
-    .gate-copy h1 {
-        margin: 18px 0;
-        font-size: clamp(42px, 14vw, 64px);
-    }
-
     .site-header {
-        grid-template-columns: 1fr auto;
-        padding: 14px 20px;
+        padding: 16px 20px;
     }
 
-    .site-header nav {
-        display: none;
+    .site-header h1 {
+        font-size: 17px;
     }
 
-    .hero-copy {
-        min-height: 620px;
-        padding: 72px 24px;
-    }
-
-    .hero-copy h1 {
-        font-size: clamp(58px, 20vw, 88px);
-    }
-
-    .hero-visual {
-        min-height: 440px;
-    }
-
-    .hero-visual::before {
-        width: 360px;
-        height: 360px;
-    }
-
-    .hero-visual::after {
-        width: 270px;
-        height: 270px;
-        box-shadow: 0 0 0 28px rgba(255, 253, 247, 0.18);
-    }
-
-    .visual-number {
-        font-size: 210px;
-    }
-
-    .visual-disc {
-        top: 28px;
-        right: 24px;
-    }
-
-    .visual-caption {
-        bottom: 24px;
-        left: 24px;
-    }
-
-    .courses-section,
-    .classroom,
-    .closing {
-        padding: 72px 20px;
-    }
-
-    .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        margin-bottom: 34px;
-    }
-
-    .section-heading > p {
-        text-align: left;
+    main {
+        padding: 20px;
     }
 
     .course-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
     }
 
     .course-card {
-        min-height: 400px;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        padding: 14px 8px;
     }
 
-    .card-symbol {
-        margin: 38px 0 28px;
-        font-size: 108px;
+    .course-card > span {
+        width: 36px;
+        height: 36px;
+        font-size: 19px;
     }
 
-    .lesson-info {
-        display: block;
+    .course-card strong {
+        font-size: 14px;
     }
 
-    .lesson-description {
-        margin: 24px 0 34px;
+    .classroom {
+        padding: 14px;
+    }
+
+    .lesson-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .lesson-actions {
+        width: 100%;
+        justify-content: space-between;
     }
 
     .player-empty {
         flex-direction: column;
-        gap: 0;
-        padding: 20px;
+        gap: 4px;
         text-align: center;
     }
 
-    .empty-subject {
-        font-size: 80px;
-    }
-
-    .player-empty strong {
-        font-size: 21px;
-    }
-
-    .player-empty p {
-        display: none;
-    }
-
-    .player-footer {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .closing {
-        min-height: 560px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-end;
-    }
-
-    .closing h2 {
-        margin: 44px 0 16px;
-    }
-
-    .closing > a {
-        margin-top: 18px;
-    }
-
-    footer {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 8px;
-        padding: 24px 20px;
+    .player-meta {
+        grid-template-columns: 1fr;
+        gap: 7px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
+    * {
         transition-duration: 0.01ms !important;
     }
 }

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="2026 新高一暑假初高衔接课程，包含语文、数学、英语三科视频。">
-    <meta name="theme-color" content="#f4f1e8">
-    <title>向新而行｜2026 新高一暑假衔接课</title>
+    <meta name="description" content="2026 新高一暑假衔接课">
+    <meta name="theme-color" content="#f3f1eb">
+    <title>2026 新高一暑假衔接课</title>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="stylesheet" href="./styles.css">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/artplayer/5.2.2/artplayer.min.js"></script>
@@ -14,119 +14,51 @@
 </head>
 <body>
     <section id="access-gate" class="access-gate" aria-labelledby="gate-title">
-        <div class="gate-orbit gate-orbit-one" aria-hidden="true"></div>
-        <div class="gate-orbit gate-orbit-two" aria-hidden="true"></div>
-        <div class="gate-panel">
-            <p class="brand-mark"><span>衔接</span><i aria-hidden="true"></i><span>2026</span></p>
-            <div class="gate-copy">
-                <p class="eyebrow">SUMMER BRIDGE PROGRAM</p>
-                <h1 id="gate-title">从这个夏天，<br>走向新的课堂。</h1>
-                <p>新高一暑假初高衔接课程</p>
+        <form id="access-form" class="access-panel">
+            <h1 id="gate-title">新高一暑假衔接课</h1>
+            <label for="access-password">访问密码</label>
+            <div class="password-row">
+                <input id="access-password" type="password" autocomplete="current-password" required>
+                <button id="access-submit" type="submit">进入</button>
             </div>
-            <form id="access-form" class="access-form">
-                <label for="access-password">课程访问密码</label>
-                <div class="password-row">
-                    <input id="access-password" type="password" autocomplete="current-password" placeholder="输入访问密码" required>
-                    <button id="access-submit" type="submit" aria-label="进入课程">进入 <span aria-hidden="true">↗</span></button>
-                </div>
-                <p id="access-message" class="form-message" aria-live="polite"></p>
-            </form>
-            <p class="gate-footnote">HE YUAN · SUMMER 2026</p>
-        </div>
+            <p id="access-message" class="form-message" aria-live="polite"></p>
+        </form>
     </section>
 
     <div id="site-shell" class="site-shell" hidden>
         <header class="site-header">
-            <a class="site-logo" href="#top" aria-label="返回页面顶部">
-                <span class="logo-block">向新</span>
-                <span class="logo-copy">暑假衔接课<small>SUMMER BRIDGE</small></span>
-            </a>
-            <nav aria-label="页面导航">
-                <a href="#courses">课程目录</a>
-                <a href="#classroom">开始学习</a>
-                <button id="logout-button" type="button">退出</button>
-            </nav>
-            <p class="header-year">2026 <span>夏</span></p>
+            <h1>2026 新高一暑假衔接课</h1>
+            <button id="logout-button" type="button">退出</button>
         </header>
 
-        <main id="top">
-            <section class="hero" aria-labelledby="hero-title">
-                <div class="hero-copy">
-                    <p class="section-index">01 / WELCOME</p>
-                    <h1 id="hero-title">新的学段，<br><em>从容</em>起步。</h1>
-                    <p class="hero-lede">三堂初高衔接课，帮你在暑假里提前看见高中的学习方式。先理解变化，再找到自己的节奏。</p>
-                    <a class="primary-link" href="#courses">查看三科课程 <span aria-hidden="true">↓</span></a>
-                </div>
-                <div class="hero-visual" aria-hidden="true">
-                    <p class="visual-number">3</p>
-                    <div class="visual-disc">
-                        <span>READY FOR</span>
-                        <strong>HIGH SCHOOL</strong>
-                        <span>SUMMER 2026</span>
-                    </div>
-                    <p class="visual-caption">三科 · 三课 · 一个新的开始</p>
-                </div>
-            </section>
-
-            <section id="courses" class="courses-section" aria-labelledby="courses-title">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-index">02 / COURSES</p>
-                        <h2 id="courses-title">选择今天的课程</h2>
-                    </div>
-                    <p>每科约 40 分钟<br>建议佩戴耳机观看</p>
-                </div>
-                <div id="course-grid" class="course-grid" aria-label="课程列表"></div>
-            </section>
+        <main>
+            <nav id="course-grid" class="course-grid" aria-label="选择科目"></nav>
 
             <section id="classroom" class="classroom" aria-labelledby="classroom-title">
-                <div class="classroom-topline">
-                    <p class="section-index">03 / CLASSROOM</p>
-                    <button id="reset-progress" class="text-button" type="button">清除本机进度</button>
+                <div class="lesson-header">
+                    <h2 id="classroom-title">语文衔接课</h2>
+                    <div class="lesson-actions">
+                        <span id="lesson-duration">约 40 分钟</span>
+                        <button id="reset-progress" type="button">清除进度</button>
+                    </div>
                 </div>
 
-                <div class="classroom-layout">
-                    <aside class="lesson-info">
-                        <p id="lesson-kicker" class="lesson-kicker">CHINESE · 01</p>
-                        <h2 id="classroom-title">新高一语文<br>衔接课</h2>
-                        <p id="lesson-description" class="lesson-description"></p>
-                        <dl class="lesson-facts">
-                            <div><dt>课时</dt><dd id="lesson-duration">约 40 分钟</dd></div>
-                            <div><dt>进度</dt><dd id="lesson-progress">尚未开始</dd></div>
-                        </dl>
-                    </aside>
-
-                    <div class="player-column">
-                        <div id="player-frame" class="player-frame" data-theme="chinese">
-                            <div id="player" class="player"></div>
-                            <div id="player-empty" class="player-empty">
-                                <span class="empty-subject">语</span>
-                                <div>
-                                    <strong>课程视频待接入</strong>
-                                    <p>上传视频并填写地址后，此处会自动启用播放器。</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="player-footer">
-                            <p><span id="current-course-dot" class="course-dot"></span><strong id="current-course-name">语文衔接课</strong></p>
-                            <p id="player-status" aria-live="polite">等待视频地址</p>
+                <div id="player-frame" class="player-frame">
+                    <div id="player" class="player"></div>
+                    <div id="player-empty" class="player-empty">
+                        <span class="empty-subject">语</span>
+                        <div>
+                            <strong>暂无视频</strong>
                         </div>
                     </div>
                 </div>
-            </section>
 
-            <section class="closing" aria-labelledby="closing-title">
-                <p class="section-index">04 / BEFORE YOU GO</p>
-                <h2 id="closing-title">不必急着成为<br>“高中生”。</h2>
-                <p>先带着好奇心出发。认真听完一堂课、记下一处不懂的问题，就是这个夏天最好的开始。</p>
-                <a href="#top">回到顶部 <span aria-hidden="true">↑</span></a>
+                <div class="player-meta">
+                    <p id="lesson-progress">尚未开始</p>
+                    <p id="player-status" aria-live="polite">未加载</p>
+                </div>
             </section>
         </main>
-
-        <footer>
-            <p>2026 新高一暑假衔接课</p>
-            <p>KEEP CURIOUS · KEEP MOVING</p>
-        </footer>
     </div>
 </body>
 </html>
