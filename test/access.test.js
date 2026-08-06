@@ -14,6 +14,7 @@ process.env.R2_OBJECT_KEY_MATH = 'courses/math.mp4';
 process.env.R2_OBJECT_KEY_ENGLISH = 'courses/english.mp4';
 
 const app = require('../api/index.js');
+const vercelConfig = require('../vercel.json');
 
 let server;
 let baseUrl;
@@ -119,5 +120,13 @@ test('only the explicit public assets are served', async () => {
   for (const pathname of ['/api/index.js', '/package.json', '/README.md', '/url.txt', '/26%E5%B1%8A%E5%8A%A0%E6%B2%B9%E8%A7%86%E9%A2%916.4(4).mp4']) {
     const response = await fetch(`${baseUrl}${pathname}`);
     assert.equal(response.status, 404, pathname);
+  }
+});
+
+test('Vercel function assets use the current string glob schema', () => {
+  const includeFiles = vercelConfig.functions['api/index.js'].includeFiles;
+  assert.equal(typeof includeFiles, 'string');
+  for (const file of ['index.html', 'styles.css', 'app.js', 'site-config.js']) {
+    assert.match(includeFiles, new RegExp(file.replace('.', '\\.')));
   }
 });
