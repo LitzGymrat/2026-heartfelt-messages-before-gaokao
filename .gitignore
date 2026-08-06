@@ -1,2 +1,10 @@
 *.mp4
+*.mov
+*.mkv
+*.webm
 url.txt
+node_modules/
+.vercel/
+.env
+.env.local
+npm-debug.log*
