@@ -4,7 +4,7 @@ const { HeadObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 
 process.env.SITE_ACCESS_PASSWORD = 'test-password-only';
 process.env.ACCESS_TOKEN_SECRET = 'test-token-secret-with-enough-entropy';
-process.env.R2_ACCOUNT_ID = 'test-account';
+process.env.R2_ACCOUNT_ID = 'https://test-account.r2.cloudflarestorage.com';
 process.env.R2_ACCESS_KEY_ID = 'test-access-key';
 process.env.R2_SECRET_ACCESS_KEY = 'test-secret-key';
 

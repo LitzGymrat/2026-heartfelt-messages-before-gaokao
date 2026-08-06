@@ -32,6 +32,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 - Git 分支：`gaoyi-summer-transition`
 - 新建独立 Vercel Project，将 Production Branch 指向本分支。
 - 在 Production 环境配置 `.env.example` 中的 5 个必填变量。
+- `R2_ACCOUNT_ID` 可以填写纯 Account ID，也兼容 Cloudflare 显示的完整 S3 API 地址。
 - 新域名绑定到这个新 Project；旧 Project 和 `main` 不变。
 - 环境变量变更后重新部署。
 

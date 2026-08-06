@@ -67,10 +67,16 @@ function getAccessTokenSecret() {
 
 function getR2Client() {
   if (!r2Client) {
-    const accountId = getRequiredConfig('R2_ACCOUNT_ID');
+    const accountIdOrEndpoint = getRequiredConfig('R2_ACCOUNT_ID');
+    let endpoint = accountIdOrEndpoint;
+    if (!/^https?:\/\//i.test(endpoint)) {
+      endpoint = endpoint.includes('.r2.cloudflarestorage.com')
+        ? `https://${endpoint}`
+        : `https://${endpoint}.r2.cloudflarestorage.com`;
+    }
     r2Client = new S3Client({
       region: 'auto',
-      endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+      endpoint,
       forcePathStyle: true,
       credentials: {
         accessKeyId: getRequiredConfig('R2_ACCESS_KEY_ID'),
