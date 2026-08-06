@@ -108,17 +108,8 @@ button {
     margin-bottom: 6px;
 }
 
-.gate-heading p,
-.player-heading p {
-    margin: 0;
-    color: rgba(31, 35, 41, 0.42);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.4em;
-}
-
 .gate-heading h1 {
-    margin: 10px 0 0;
+    margin: 0;
     color: #172033;
     font-size: 36px;
     font-weight: 650;
@@ -201,7 +192,7 @@ button {
 }
 
 .player-heading h1 {
-    margin: 8px 0 0;
+    margin: 0;
     color: #172033;
     font-size: clamp(26px, 4vw, 40px);
     font-weight: 650;
@@ -277,42 +268,15 @@ button {
 
 .lesson-heading {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
     margin-bottom: 12px;
     padding: 0 5px;
 }
 
 .lesson-heading h2 {
-    margin: 0 0 3px;
+    margin: 0;
     color: #2a3039;
     font-size: 17px;
     font-weight: 600;
-}
-
-.lesson-heading span,
-.lesson-actions,
-.player-meta {
-    color: var(--subtle);
-    font-size: 11px;
-}
-
-.lesson-actions {
-    display: flex;
-    gap: 16px;
-}
-
-.lesson-actions button {
-    padding: 4px 0;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-}
-
-.lesson-actions button:hover {
-    color: var(--blue);
 }
 
 .player-frame {
@@ -353,8 +317,7 @@ button {
     line-height: 1;
 }
 
-.player-empty strong,
-.player-empty div span {
+.player-empty strong {
     display: block;
 }
 
@@ -364,25 +327,7 @@ button {
     font-weight: 600;
 }
 
-.player-empty div span {
-    color: rgba(255, 255, 255, 0.45);
-    font-size: 11px;
-}
-
-.player-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 12px 5px 0;
-}
-
-.player-meta p {
-    margin: 0;
-}
-
 .course-card:focus-visible,
-.lesson-actions button:focus-visible,
 .access-panel input:focus-visible,
 .access-panel > button:focus-visible {
     outline: 2px solid var(--blue);
@@ -432,8 +377,7 @@ button {
         width: 100%;
     }
 
-    .lesson-heading,
-    .player-meta {
+    .lesson-heading {
         padding-right: 20px;
         padding-left: 20px;
     }
@@ -449,17 +393,6 @@ button {
         border-radius: 28px;
     }
 
-    .lesson-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 9px;
-    }
-
-    .lesson-actions {
-        width: 100%;
-        justify-content: space-between;
-    }
-
     .course-card-icon {
         display: none;
     }
@@ -470,9 +403,6 @@ button {
         text-align: center;
     }
 
-    .player-empty div span {
-        display: none;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

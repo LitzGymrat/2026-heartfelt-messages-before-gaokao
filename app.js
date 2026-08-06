@@ -13,16 +13,12 @@
         password: document.getElementById('access-password'),
         accessSubmit: document.getElementById('access-submit'),
         accessMessage: document.getElementById('access-message'),
-        logoutButton: document.getElementById('logout-button'),
         courseGrid: document.getElementById('course-grid'),
         lessonTitle: document.getElementById('classroom-title'),
-        lessonDuration: document.getElementById('lesson-duration'),
-        lessonProgress: document.getElementById('lesson-progress'),
         playerFrame: document.getElementById('player-frame'),
         player: document.getElementById('player'),
         playerEmpty: document.getElementById('player-empty'),
         playerStatus: document.getElementById('player-status'),
-        resetProgress: document.getElementById('reset-progress'),
     };
 
     let currentCourse = config.courses[0];
@@ -142,8 +138,6 @@
 
     function updateLessonCopy(course) {
         elements.lessonTitle.textContent = `${course.subject}衔接课`;
-        elements.lessonDuration.textContent = course.duration;
-        elements.lessonProgress.textContent = formatProgress(readProgress(course.id));
         elements.playerFrame.dataset.theme = course.id;
         elements.playerFrame.style.setProperty('--active-accent', course.accent);
         elements.playerEmpty.querySelector('.empty-subject').textContent = course.shortName;
@@ -208,7 +202,6 @@
             if (currentSecond >= 0 && currentSecond !== lastSavedSecond && currentSecond % 5 === 0) {
                 lastSavedSecond = currentSecond;
                 writeProgress(course.id, currentSecond);
-                elements.lessonProgress.textContent = formatProgress(currentSecond);
             }
         });
 
@@ -293,20 +286,6 @@
         } finally {
             elements.accessSubmit.disabled = false;
         }
-    });
-
-    elements.logoutButton.addEventListener('click', async () => {
-        try {
-            await fetchJson('/api/logout', { method: 'POST' });
-        } finally {
-            showGate('已安全退出。');
-        }
-    });
-
-    elements.resetProgress.addEventListener('click', () => {
-        config.courses.forEach((course) => safeStorage(window.localStorage, (storage) => storage.removeItem(progressKey(course.id))));
-        elements.lessonProgress.textContent = '尚未开始';
-        elements.playerStatus.textContent = art ? '本机进度已清除' : '等待课程播放';
     });
 
     window.addEventListener('beforeunload', saveCurrentProgress);
