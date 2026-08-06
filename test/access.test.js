@@ -3,15 +3,9 @@ const { after, before, test } = require('node:test');
 
 process.env.SITE_ACCESS_PASSWORD = 'test-password-only';
 process.env.ACCESS_TOKEN_SECRET = 'test-token-secret-with-enough-entropy';
-process.env.ACCESS_TOKEN_TTL_SECONDS = '3600';
-process.env.VIDEO_URL_TTL_SECONDS = '3600';
 process.env.R2_ACCOUNT_ID = 'test-account';
 process.env.R2_ACCESS_KEY_ID = 'test-access-key';
 process.env.R2_SECRET_ACCESS_KEY = 'test-secret-key';
-process.env.R2_BUCKET_NAME = 'test-bucket';
-process.env.R2_OBJECT_KEY_CHINESE = 'courses/chinese.mp4';
-process.env.R2_OBJECT_KEY_MATH = 'courses/math.mp4';
-process.env.R2_OBJECT_KEY_ENGLISH = 'courses/english.mp4';
 
 const app = require('../api/index.js');
 const vercelConfig = require('../vercel.json');
@@ -49,7 +43,7 @@ test('public front-end files do not expose passwords, credentials, or object key
     assert.equal(response.status, 200, pathname);
     assert.equal(body.includes(process.env.SITE_ACCESS_PASSWORD), false, pathname);
     assert.equal(body.includes(process.env.R2_ACCOUNT_ID), false, pathname);
-    assert.equal(body.includes(process.env.R2_OBJECT_KEY_CHINESE), false, pathname);
+    assert.equal(body.includes('courses/chinese.mp4'), false, pathname);
     assert.equal(body.includes('R2_SECRET_ACCESS_KEY'), false, pathname);
   }
 });
@@ -84,9 +78,9 @@ test('session uses a signed HttpOnly strict cookie', async () => {
 test('each known course receives a signed URL for only its configured object', async () => {
   const cookie = await signIn();
   const expectedKeys = {
-    chinese: process.env.R2_OBJECT_KEY_CHINESE,
-    math: process.env.R2_OBJECT_KEY_MATH,
-    english: process.env.R2_OBJECT_KEY_ENGLISH,
+    chinese: 'courses/chinese.mp4',
+    math: 'courses/math.mp4',
+    english: 'courses/english.mp4',
   };
 
   for (const [course, objectKey] of Object.entries(expectedKeys)) {
@@ -96,7 +90,7 @@ test('each known course receives a signed URL for only its configured object', a
     const signedUrl = new URL(payload.url);
     assert.equal(payload.course, course);
     assert.equal(signedUrl.hostname, 'test-account.r2.cloudflarestorage.com');
-    assert.equal(signedUrl.pathname, `/test-bucket/${objectKey}`);
+    assert.equal(signedUrl.pathname, `/gaoyi-summer-transition-2026/${objectKey}`);
     assert.ok(signedUrl.searchParams.get('X-Amz-Signature'));
     assert.equal(payload.expiresInSeconds, 3600);
   }

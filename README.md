@@ -4,7 +4,7 @@
 
 ## 保护边界
 
-- 密码、R2 凭据、桶名和三个视频对象名称只存在于服务端环境变量中。
+- 密码和 R2 凭据只存在于服务端环境变量中。
 - 浏览器通过签名后的 `HttpOnly` Cookie 保持访问状态。
 - `/api/video-url?course=...` 只接受语文、数学、英语三个课程标识。
 - 每次播放拿到的是默认有效期一小时的临时 R2 地址，足以覆盖约 40 分钟的课程。
@@ -16,7 +16,7 @@
 
 1. 运行 `npm install`。
 2. 将 `.env.example` 复制为 `.env`。
-3. 填写密码、签名密钥、R2 凭据、私有桶名和三个视频对象名称。
+3. 填写密码、签名密钥和三个 R2 凭据。
 4. 运行 `npm start`，打开 `http://localhost:3000`。
 
 签名密钥可用以下命令生成：
@@ -31,8 +31,10 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 
 - Git 分支：`gaoyi-summer-transition`
 - 新建独立 Vercel Project，将 Production Branch 指向本分支。
-- 在 Production、Preview 和 Development 环境配置 `.env.example` 中的全部必填变量。
+- 在 Production 环境配置 `.env.example` 中的 5 个必填变量。
 - 新域名绑定到这个新 Project；旧 Project 和 `main` 不变。
 - 环境变量变更后重新部署。
 
 `vercel.json` 会把页面、静态资源和 API 请求统一交给 `api/index.js`，因此密码校验和静态文件白名单在本地与 Vercel 上保持一致。
+
+服务端固定使用私有桶 `gaoyi-summer-transition-2026`，三个对象路径分别为 `courses/chinese.mp4`、`courses/math.mp4` 和 `courses/english.mp4`。登录有效期固定为 7 天，临时视频地址有效期固定为 1 小时。

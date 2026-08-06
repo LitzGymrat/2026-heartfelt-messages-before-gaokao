@@ -11,13 +11,16 @@ const projectRoot = path.join(__dirname, '..');
 const accessCookieName = 'gaoyi_bridge_access';
 const loginWindowMs = 15 * 60 * 1000;
 const maxFailedLogins = 10;
+const accessTokenTtlSeconds = 7 * 24 * 60 * 60;
+const videoUrlTtlSeconds = 60 * 60;
+const r2BucketName = 'gaoyi-summer-transition-2026';
 const failedLogins = new Map();
 let r2Client;
 
-const courseObjectVariables = Object.freeze({
-  chinese: 'R2_OBJECT_KEY_CHINESE',
-  math: 'R2_OBJECT_KEY_MATH',
-  english: 'R2_OBJECT_KEY_ENGLISH',
+const courseObjectKeys = Object.freeze({
+  chinese: 'courses/chinese.mp4',
+  math: 'courses/math.mp4',
+  english: 'courses/english.mp4',
 });
 
 const publicFiles = Object.freeze({
@@ -52,16 +55,6 @@ function getRequiredConfig(name) {
   return value;
 }
 
-function getAccessTokenTtlSeconds() {
-  const value = Number(process.env.ACCESS_TOKEN_TTL_SECONDS || 604800);
-  if (!Number.isInteger(value) || value < 60 || value > 2592000) {
-    const error = new Error('ACCESS_TOKEN_TTL_SECONDS must be between 60 and 2592000.');
-    error.code = 'CONFIGURATION_ERROR';
-    throw error;
-  }
-  return value;
-}
-
 function getAccessTokenSecret() {
   const secret = getRequiredConfig('ACCESS_TOKEN_SECRET');
   if (secret.length < 32) {
@@ -70,16 +63,6 @@ function getAccessTokenSecret() {
     throw error;
   }
   return secret;
-}
-
-function getVideoUrlTtlSeconds() {
-  const value = Number(process.env.VIDEO_URL_TTL_SECONDS || 3600);
-  if (!Number.isInteger(value) || value < 300 || value > 604800) {
-    const error = new Error('VIDEO_URL_TTL_SECONDS must be between 300 and 604800.');
-    error.code = 'CONFIGURATION_ERROR';
-    throw error;
-  }
-  return value;
 }
 
 function getR2Client() {
@@ -215,10 +198,9 @@ app.post('/api/access', (request, response, next) => {
     }
 
     failedLogins.delete(key);
-    const ttlSeconds = getAccessTokenTtlSeconds();
-    const token = signAccessToken(Math.floor(Date.now() / 1000) + ttlSeconds);
+    const token = signAccessToken(Math.floor(Date.now() / 1000) + accessTokenTtlSeconds);
     response.set('Cache-Control', 'no-store');
-    response.set('Set-Cookie', buildAccessCookie(request, token, ttlSeconds));
+    response.set('Set-Cookie', buildAccessCookie(request, token, accessTokenTtlSeconds));
     response.status(204).end();
   } catch (error) {
     next(error);
@@ -234,21 +216,20 @@ app.post('/api/logout', (request, response) => {
 app.get('/api/video-url', requireAccess, async (request, response, next) => {
   try {
     const courseId = String(request.query.course || '').trim();
-    const objectVariable = courseObjectVariables[courseId];
-    if (!objectVariable) {
+    const objectKey = courseObjectKeys[courseId];
+    if (!objectKey) {
       response.status(400).json({ error: '未知课程。' });
       return;
     }
 
-    const expiresInSeconds = getVideoUrlTtlSeconds();
     const command = new GetObjectCommand({
-      Bucket: getRequiredConfig('R2_BUCKET_NAME'),
-      Key: getRequiredConfig(objectVariable),
+      Bucket: r2BucketName,
+      Key: objectKey,
       ResponseContentType: 'video/mp4',
     });
-    const videoUrl = await getSignedUrl(getR2Client(), command, { expiresIn: expiresInSeconds });
+    const videoUrl = await getSignedUrl(getR2Client(), command, { expiresIn: videoUrlTtlSeconds });
     response.set('Cache-Control', 'no-store');
-    response.json({ course: courseId, url: videoUrl, expiresInSeconds });
+    response.json({ course: courseId, url: videoUrl, expiresInSeconds: videoUrlTtlSeconds });
   } catch (error) {
     next(error);
   }
