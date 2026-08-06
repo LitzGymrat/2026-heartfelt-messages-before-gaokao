@@ -18,9 +18,9 @@ const failedLogins = new Map();
 let r2Client;
 
 const courseObjectKeys = Object.freeze({
-  chinese: 'courses/chinese.mp4',
-  math: 'courses/math.mp4',
-  english: 'courses/english.mp4',
+  chinese: 'Courses/chinese.mp4',
+  math: 'Courses/math.mp4',
+  english: 'Courses/english.mp4',
 });
 
 const publicFiles = Object.freeze({

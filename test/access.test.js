@@ -82,9 +82,9 @@ test('session uses a non-expiring signed HttpOnly strict cookie', async () => {
 test('each known course receives a signed URL for only its configured object', async () => {
   const cookie = await signIn();
   const expectedKeys = {
-    chinese: 'courses/chinese.mp4',
-    math: 'courses/math.mp4',
-    english: 'courses/english.mp4',
+    chinese: 'Courses/chinese.mp4',
+    math: 'Courses/math.mp4',
+    english: 'Courses/english.mp4',
   };
 
   for (const [course, objectKey] of Object.entries(expectedKeys)) {
