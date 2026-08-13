@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node api/index.js",
     "dev": "node --watch api/index.js",
+    "media:prepare": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/prepare-course-videos.ps1",
+    "media:publish": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/prepare-course-videos.ps1 -Upload",
     "test": "node --test"
   },
   "engines": {

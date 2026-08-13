@@ -22,6 +22,7 @@ const courseObjectKeys = Object.freeze({
   chinese: 'Courses/chinese.mp4',
   math: 'Courses/math.mp4',
   english: 'Courses/english.mp4',
+  physics: 'Courses/physics.mp4',
 });
 
 const publicFiles = Object.freeze({

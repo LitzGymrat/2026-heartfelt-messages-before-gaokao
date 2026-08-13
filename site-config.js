@@ -23,5 +23,12 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             accent: '#2f88ff',
             poster: '',
         },
+        {
+            id: 'physics',
+            subject: '物理',
+            shortName: '物',
+            accent: '#5b67d6',
+            poster: '',
+        },
     ],
 });

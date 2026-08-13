@@ -96,6 +96,7 @@ test('each known course receives a signed URL for only its configured object', a
     chinese: 'Courses/chinese.mp4',
     math: 'Courses/math.mp4',
     english: 'Courses/english.mp4',
+    physics: 'Courses/physics.mp4',
   };
 
   for (const [course, objectKey] of Object.entries(expectedKeys)) {
@@ -110,7 +111,7 @@ test('each known course receives a signed URL for only its configured object', a
     assert.equal(payload.expiresInSeconds, 3600);
   }
 
-  const unknown = await fetch(`${baseUrl}/api/video-url?course=physics`, { headers: { Cookie: cookie } });
+  const unknown = await fetch(`${baseUrl}/api/video-url?course=chemistry`, { headers: { Cookie: cookie } });
   assert.equal(unknown.status, 400);
 });
 
