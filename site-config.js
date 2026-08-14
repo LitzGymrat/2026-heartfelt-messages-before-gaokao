@@ -1,4 +1,4 @@
-// 前端课程名称与颜色；视频对象由服务端环境变量配置。
+// 前端课程名称、颜色与显示开关；视频对象由服务端配置。
 window.SUMMER_BRIDGE_CONFIG = Object.freeze({
     storagePrefix: 'gaoyi-summer-transition-2026',
     courses: [
@@ -22,6 +22,7 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             shortName: '英',
             accent: '#2f88ff',
             poster: '',
+            hidden: true,
         },
         {
             id: 'physics',
@@ -29,6 +30,7 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             shortName: '物',
             accent: '#5b67d6',
             poster: '',
+            hidden: true,
         },
     ],
 });

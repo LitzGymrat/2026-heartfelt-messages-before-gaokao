@@ -5,6 +5,10 @@
     if (!config || !Array.isArray(config.courses) || config.courses.length === 0) {
         throw new Error('课程配置缺失。');
     }
+    const visibleCourses = config.courses.filter((course) => !course.hidden);
+    if (visibleCourses.length === 0) {
+        throw new Error('没有可显示的课程。');
+    }
 
     const elements = {
         gate: document.getElementById('access-gate'),
@@ -21,7 +25,7 @@
         playerStatus: document.getElementById('player-status'),
     };
 
-    let currentCourse = config.courses[0];
+    let currentCourse = visibleCourses[0];
     let accessGranted = false;
     let art = null;
     let lastSavedSecond = -1;
@@ -103,7 +107,7 @@
 
     function renderCourseCards() {
         const fragment = document.createDocumentFragment();
-        config.courses.forEach((course) => fragment.appendChild(createCourseCard(course)));
+        visibleCourses.forEach((course) => fragment.appendChild(createCourseCard(course)));
         elements.courseGrid.replaceChildren(fragment);
     }
 
@@ -249,7 +253,7 @@
     }
 
     async function selectCourse(courseId, scrollToPlayer) {
-        const nextCourse = config.courses.find((course) => course.id === courseId);
+        const nextCourse = visibleCourses.find((course) => course.id === courseId);
         if (!nextCourse) return;
 
         destroyPlayer();
@@ -306,6 +310,6 @@
     }
 
     renderCourseCards();
-    void selectCourse(config.courses[0].id, false);
+    void selectCourse(visibleCourses[0].id, false);
     void restoreSession();
 }());
