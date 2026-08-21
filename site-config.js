@@ -22,7 +22,7 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             shortName: '英',
             accent: '#2f88ff',
             poster: '',
-            hidden: true,
+            hidden: false,
         },
         {
             id: 'physics',
