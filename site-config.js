@@ -30,7 +30,7 @@ window.SUMMER_BRIDGE_CONFIG = Object.freeze({
             shortName: '物',
             accent: '#5b67d6',
             poster: '',
-            hidden: true,
+            hidden: false,
         },
     ],
 });
